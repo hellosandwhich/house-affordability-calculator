@@ -18,6 +18,7 @@ import { RegulatoryComplianceCard } from './components/RegulatoryComplianceCard'
 import { MaxBudgetFinder } from './components/MaxBudgetFinder';
 import { StressTestSimulator } from './components/StressTestSimulator';
 import { StampDutyGuideModal } from './components/StampDutyGuideModal';
+import { LiveMarketDataModal } from './components/LiveMarketDataModal';
 import {
   Calculator,
   Compass,
@@ -33,6 +34,7 @@ export default function App() {
   const [activePresetId, setActivePresetId] = useState<string | null>(defaultPreset.id);
   const [activeTab, setActiveTab] = useState<'verdict' | 'max_budget' | 'stress_test'>('verdict');
   const [isStampDutyModalOpen, setIsStampDutyModalOpen] = useState(false);
+  const [isLiveMarketModalOpen, setIsLiveMarketModalOpen] = useState(false);
 
   // Recalculate whenever inputs change
   const calculationResult = useMemo(() => {
@@ -62,6 +64,30 @@ export default function App() {
     setActivePresetId(null);
   };
 
+  const handleApplyLivePrice = (price: number, flatType?: string) => {
+    setInput((prev) => {
+      let propType = prev.propertyType;
+      if (flatType) {
+        propType = 'hdb_resale';
+      }
+      return {
+        ...prev,
+        purchasePrice: price,
+        propertyType: propType,
+      };
+    });
+    setActiveTab('verdict');
+    setActivePresetId(null);
+  };
+
+  const handleApplyLiveInterestRate = (rate: number) => {
+    setInput((prev) => ({
+      ...prev,
+      interestRate: rate,
+    }));
+    setActivePresetId(null);
+  };
+
   const handleInputChange = (
     updater: (prev: UserFinancialInput) => UserFinancialInput
   ) => {
@@ -75,7 +101,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-100/70 text-slate-900 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
       {/* Top Bar Contract compliant Header */}
-      <Header onReset={handleReset} onPrint={handlePrint} />
+      <Header
+        onReset={handleReset}
+        onPrint={handlePrint}
+        onOpenLiveMarketData={() => setIsLiveMarketModalOpen(true)}
+      />
 
       {/* Preset Bar */}
       <PresetBar
@@ -211,6 +241,14 @@ export default function App() {
       <StampDutyGuideModal
         isOpen={isStampDutyModalOpen}
         onClose={() => setIsStampDutyModalOpen(false)}
+      />
+
+      {/* Live Market Data Modal (HDB & MAS SORA) */}
+      <LiveMarketDataModal
+        isOpen={isLiveMarketModalOpen}
+        onClose={() => setIsLiveMarketModalOpen(false)}
+        onApplyPrice={handleApplyLivePrice}
+        onApplyInterestRate={handleApplyLiveInterestRate}
       />
     </div>
   );
