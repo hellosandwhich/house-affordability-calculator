@@ -1,0 +1,6 @@
+{
+  "name": "LionCity HomeAfford - Singapore Property Affordability Calculator",
+  "description": "Calculate Singapore residential property affordability, MSR & TDSR limits, upfront cash & CPF out-of-pocket expenses, Buyer's Stamp Duty (BSD/ABSD), and monthly mortgage cashflow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
