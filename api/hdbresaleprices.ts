@@ -23,7 +23,7 @@ export default async function handler(req: Request, res: Response) {
     const targetUrl = `${HDB_DATASTORE_URL}&limit=${encodeURIComponent(limit)}`;
 
     // Build headers including mandatory AccountKey from environment
-    const accountKey = process.env.ACCOUNT_KEY || '';
+    const accountKey = process.env.HDB_ACCOUNT_KEY || process.env.ACCOUNT_KEY || '';
     const headers: Record<string, string> = {
       Accept: 'application/json',
       'User-Agent': 'LionCity-HomeAfford-Calculator/1.0',

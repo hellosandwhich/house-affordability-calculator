@@ -19,7 +19,7 @@ export default async function handler(req: Request, res: Response) {
   }
 
   try {
-    const accountKey = process.env.ACCOUNT_KEY || '';
+    const accountKey = process.env.MAS_ACCOUNT_KEY || process.env.ACCOUNT_KEY || '';
     const headers: Record<string, string> = {
       Accept: 'application/json',
       'User-Agent': 'LionCity-HomeAfford-Calculator/1.0',
